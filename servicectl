@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 import gi
@@ -39,7 +39,7 @@ class ServiceControl:
 		self.menu = self.builder.get_object("popupmenu")
 
 		if APPIND_SUPPORT:
-			self.tray = AppIndicator3.Indicator.new("servicectl", self.icon, AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
+			self.tray = AppIndicator3.Indicator.new("servicectl", self.icon, AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
 			self.tray.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 			self._add_menu_item(self.on_click, "Show/Hide")
 			self.tray.set_menu(self.menu)
@@ -84,7 +84,7 @@ class ServiceControl:
 	#################
 	## EVENTS HANDLE
 	#################
-
+		
 	def on_click(self, w):
 		if self.window.get_property("visible"):
 			self.hide()
@@ -93,11 +93,7 @@ class ServiceControl:
 
 	def on_r_click(self, icon, button, time):
 		self._get_tray_menu()
-
-		def pos(menu, aicon):
-			return (Gtk.StatusIcon.position_menu(menu, aicon))
-
-		self.menu.popup(None, None, pos, icon, button, time)
+		self.menu.popup(None, None, Gtk.StatusIcon.position_menu, icon, button, time)
 
 	def on_button_click_multi_action(self, action):
 		if action == "startstop":
